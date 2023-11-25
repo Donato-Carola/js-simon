@@ -15,36 +15,38 @@ Esiste un oggetto JS in grado di gestire le date?
 Esistono dei metodi per trasformare una data in millisecondi?*/ 
 
 
+const daysElem=document.querySelector('span#days')
+const hoursElem=document.querySelector('span#hours')
+const minutesElem=document.querySelector('span#minutes')
+const secondElem=document.querySelector('span#seconds')
 
-/*const dataCapodanno = (new Date("January 01, 2024 00:00:00")).getTime();
-const dataMillisecondi=new Date (dataCapodanno)
-//const dataa = dataMillisecondi.toLocaleTimeString()
+const newYear = new Date(2024,0,1,0,0,0,0);
+console.log(newYear);
 
-//console.log(`la data in millesecondi copiata in una variabile è ${dataMillisecondi}`)
+const timer = setInterval(function(){
+    const nowDate =new Date();
+    console.log(nowDate);
+    
+    const calcDate= newYear.getTime() - nowDate.getTime();
+    console.log(calcDate);
+    
+    const seconds = Math.floor((calcDate % (60 * 1000)) / 1000);
+    const minutes = Math.floor((calcDate % (60 * 60 * 1000)) / (1000 * 60));
+    const hours = Math.floor((calcDate % (60 * 60 * 24 * 1000)) / (1000 * 60 * 60));
+    const days = Math.floor((calcDate / (60 * 60 * 24 * 1000)));
 
-console.log(dataCapodanno);
+    console.log(days, hours, minutes, seconds);
 
-const dataNow = new Date().getTime()
-console.log(dataNow);
+   secondElem.innerHTML=`${seconds}`
+   minutesElem.innerHTML=`${minutes} :`
+   hoursElem.innerHTML=`${hours} :`
+   daysElem.innerHTML=`${days} :`
 
-if(dataNow!==dataCapodanno){
-   const risultato = (dataCapodanno-dataNow);
-   console.log(`i millesecondi che ci separano dal capodanno sono ${risultato}`)
-   stampa.innerHTML=(`${risultato}`)
-}else{
-    console.log(`buon anno`)
 
-}*/
-const stampa = document.querySelector('#spanStampa');
-const currentYear=new Date().getFullYear();
-const dataCapodanno=new Date(`January 1 ${currentYear+1} 00:00:00`);
 
-function aggiornamentoTime(){
-    const dataNow= new Date();
-    const risultato = dataCapodanno - dataNow;
-    console.log(risultato)
-    const ms =Math.floor(risultato%1000)
-    stampa.innerHTML=ms<10?"0"+ms:ms;
-}
 
-//setInterval(aggiornamentoTime,1000);
+    if(calcDate <= 0){
+        clearInterval(timer);
+        document.querySelector('main h2').innerHTML = 'HAPPY NEW YEAR'
+    }
+},1000);
